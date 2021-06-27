@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>My blog</title>
 </head>
 <body>
+
+    {% for post in posts %}
+        <i>{{post['date']}}</i><br>{{post['title']}}<br>{{post['description']}}
+        <hr>
+    {% endfor %}
 
 </body>
 </html>
