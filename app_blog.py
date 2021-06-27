@@ -1,6 +1,8 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect
 import sqlite3
+import datetime
 import time
+
 
 app = Flask(__name__)
 
@@ -33,7 +35,7 @@ def create_db():
 def start():
     db = connect_db()
     cur = db.cursor()
-    cur.execute("SELECT * FROM posts")
+    cur.execute("SELECT * FROM posts ORDER BY date DESC")
     posts = cur.fetchall()
 
     db.close()
@@ -47,8 +49,21 @@ def start():
 
 @app.route('/posts/add')
 def add_post():
-    pass
 
+    db = connect_db()
+
+    title = request.args.get("title")
+    description = request.args.get("description")
+    date = int(time.time())
+    data = (title, description, date)
+    # date = datetime.datetime.today().strftime("%d-%B-%Y %H:%M")
+
+    db.cursor().execute("INSERT INTO posts VALUES (NULL, ?, ?, ?)", data)
+
+    db.commit()
+    db.close()
+
+    return redirect('/posts')
 
 @app.route('/posts/edit')
 def edit_post():
@@ -57,7 +72,17 @@ def edit_post():
 
 @app.route('/posts/delete')
 def del_post():
-    pass
+    db = connect_db()
+    id = request.args.get('id')
+    print(id)
+    if id:
+        db.cursor().execute("DELETE FROM posts WHERE id = ?", id)
+        print('ok delete')
+
+    db.commit()
+    db.close()
+
+    return redirect('/posts')
 
 
 if __name__ == '__main__':
