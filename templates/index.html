@@ -7,8 +7,12 @@
 <body>
 
     {% for post in posts %}
-        <i>{{post['date']}}</i><br>{{post['title']}}<br>{{post['description']}}
-        <hr>
+    <div>
+        <b>{{post['title'].upper()}}</b><br>
+        <i>{{post['date']}}</i><br>
+        {{post['description']}}
+    </div>
+    <hr>
     {% endfor %}
 
 </body>
