@@ -5,14 +5,18 @@
     <title>My blog</title>
 </head>
 <body>
+<div style="background: #0ecfed; margin-left: 20px;">
+    <h1><i>Мой блог</i></h1>
+</div>
+<h3>Список статей</h3>
 
     {% for post in posts %}
-    <div>
-        <b>{{post['title'].upper()}}</b><br>
-        <i>{{post['date']}}</i><br>
-        {{post['description']}}
+     <div style="margin-left: 15px; background: #d5ecf0; padding-left: 10px">
+        <p style="background: #f2ebd8"><a href="{{url_for('show_post', id=post['id'])}}"><b>{{post['title'].upper()}}</b></a></p>
+        <p style="font: italic 10px serif; margin-bottom: -10px">{{post['date']}}</p><br>
+         <p style="margin-top: -5px;">{{post['description'][:100]}}</p>
     </div>
-    <hr>
+        <hr>
     {% endfor %}
 
 </body>
